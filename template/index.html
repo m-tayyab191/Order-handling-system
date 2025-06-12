@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Handling System</title>
+</head>
+<body>
+    <h1>Add New Order</h1>
+    <form method="POST" action="/add">
+        Order ID: <input type="text" name="order_id"><br>
+        Number of Items: <input type="number" name="num_items"><br>
+        Delivery Date: <input type="date" name="delivery_date"><br>
+        Sender Name: <input type="text" name="sender_name"><br>
+        Recipient Name: <input type="text" name="recipient_name"><br>
+        Recipient Address: <input type="text" name="recipient_address"><br>
+        Performed By: <input type="text" name="performed_by"><br>
+        <input type="submit" value="Add Order">
+    </form>
+
+    <h2>Orders</h2>
+    <table border="1">
+        <tr>
+            <th>Order ID</th><th>Status</th><th>Actions</th>
+        </tr>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.order_id }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+                <a href="/edit/{{ order.order_id }}">Edit</a> |
+                <a href="/deliver/{{ order.order_id }}?performed_by=admin">Deliver</a> |
+                <a href="/delete/{{ order.order_id }}?performed_by=admin">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Action Logs</h2>
+    <ul>
+        {% for log in logs %}
+            <li>{{ log.timestamp }} - {{ log.action_type }} by {{ log.performed_by }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
